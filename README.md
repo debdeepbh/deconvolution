@@ -74,10 +74,10 @@ To apply the Plank-taper window without padding, use `N = length(w)` and any val
 ### Demo
 * `set_params` specifies the parameters to be used. This also produces the basis matrix for the wavelet transform.
 * `set_data` prepares a set of test data. The original simulates signal is called `testyori`. It produces the following matrices, rows (15 of those) of which are individual signals.
- 1. `ax` contains the ANITA observations (blurred and noisy)
- 1. `aximp` contains the corresponding impulse responses
- 1. `noiseax` contains the noise data
- 1. `wax` contains the simulated noisy blurred signals (`conv(testyori, aximp(i)) + noiseax(i)`)
+ * `ax` contains the ANITA observations (blurred and noisy)
+ * `aximp` contains the corresponding impulse responses
+ * `noiseax` contains the noise data
+ * `wax` contains the simulated noisy blurred signals (`conv(testyori, aximp(i)) + noiseax(i)`)
 
 
 # Reference
