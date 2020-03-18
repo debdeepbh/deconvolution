@@ -1,0 +1,5 @@
+[/usr/lib/system/libsystem_platform.dylib] _sigtramp (no debug info)
+[/usr/lib/dyld] dyld::fastBindLazySymbol(ImageLoader**, unsigned long) (no debug info)
+[/Users/aztlan/work/ANITA/anita_build/src/./printDelay] main /Users/aztlan/work/ANITA/anita_build/src/printDelay.cxx:63
+[/usr/lib/system/libdyld.dylib] start (no debug info)
+[<unknown binary>] (no debug info)
