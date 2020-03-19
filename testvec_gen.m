@@ -1,4 +1,12 @@
 function [testvec] = testvec_gen(n) 
+% generate sample signals for testing
+%  1: two chirps
+%  2: boxes
+%  3: sawtooth/triangle
+%  4: chirp
+%  5: smooth impulsive
+%  6: narrow impulsive
+
 testvec = zeros(1,512);
 switch n
 	case 1	% Two chirps
@@ -52,3 +60,5 @@ switch n
 		
 end
 
+% Extending by zero to the right
+testvec = [testvec zeros(1,512)];

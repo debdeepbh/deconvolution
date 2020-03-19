@@ -26,10 +26,11 @@ end
 	hsq = abs(fimp).^2;
 
 	% construct the noise power
-	if (length(noise)==1)	% noise is actually the variance
+	if (length(noise)==1)	% noise is actually the std
 		sigmasq = N*noise^2;
 	else			% it is the raw noise
-		sigmasq = abs(fft(noise)).^2;
+		sigmasq = std(noise);		% feed just the noise s.d.
+		%sigmasq = abs(fft(noise)).^2; 	% feed the entire noise spectrum
 	end
 
 	%mult = hsq ./( hsq + scaling*N*(sigma.^2)./(abs(fori).^2));

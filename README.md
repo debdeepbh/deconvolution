@@ -70,14 +70,46 @@ To apply the Plank-taper window without padding, use `N = length(w)` and any val
 * `croscor(f,q)` computes the circular cross-correlation between two vectors of same length
 <!--* `cpuow(z)` computes the cumulative power distribution of a signal `z`-->
 * `deriv(z)` computes the difference of consecutive terms (a crude derivative)
+* `boxcar(supp, N)` outputs a signal of size `N` which is the characteristic function of the set `1:supp`
 
 ### Demo
 * `set_params` specifies the parameters to be used. This also produces the basis matrix for the wavelet transform.
 * `set_data` prepares a set of test data. The original simulates signal is called `testyori`. It produces the following matrices, rows (15 of those) of which are individual signals.
- * `ax` contains the ANITA observations (blurred and noisy)
- * `aximp` contains the corresponding impulse responses
- * `noiseax` contains the noise data
- * `wax` contains the simulated noisy blurred signals (`conv(testyori, aximp(i)) + noiseax(i)`)
+```
+ wax:	 contains the simulated noisy blurred signals (conv(testyori, aximp(i)) + noiseax(i))
+ aximp:	 contains the corresponding impulse responses (boxcar blur with variable support length)
+ noiseax:contains the noise data
+
+f_wax:	contains the FFT of wax
+f_aximp:	contains the FFT of aximp
+```
+Single channel observation:
+```
+testobs: noisy blurred observation
+testimp: impulse response
+noiseax: noise data
+```
+
+Anita data
+```
+ ax:	 contains the ANITA observations (blurred and noisy)
+ aximp_anita:	 contains the corresponding ANITA impulse responses
+```
+
+##### Single channel Fourier based deconvolution: Wiener
+* Perform a Wiener deconvolution using
+```
+[fw, mult] = fdecwien(f_testobs, f_testimp, f_testvec, testnoise, 1)
+```
+
+* Plot the original and deconvolved signals
+```
+plot(testvec)
+hold on
+plot(real(ifft(fw)))
+```
+
+##### Multichannel Fourier based deconvolution: Schiske
 
 
 # Reference

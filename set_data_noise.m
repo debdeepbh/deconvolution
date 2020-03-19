@@ -1,19 +1,13 @@
-% generate theoretical data for multi-antenna model
-
+% generates simulated data for multi-antenna model
+% fixed noise standard deviation for each channel
+function [testvec, f_testvec, aximp, f_aximp, wax, f_wax, noiseax, testconv, testobs, testimp, testnoise, f_testobs, f_testimp] = set_data_noise(testvec_num, noise_level) 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                           Simulated data                            %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-noise_level = 2;
-
 % get the theoretical data
-testvec = testvec_gen(2);	% the spectrum of this one overlaps with that of K
+testvec = testvec_gen(testvec_num);	% the spectrum of this one overlaps with that of K
 f_testvec = fft(testvec);
-
-aximp = zeros(15, 1024);
-
-[ax, aximp_anita] = prepsig(5);
-
 
 for i=1:15
 	aximp(i,:) = boxcar(i, 1024);
@@ -37,7 +31,9 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                           single channel                            %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-channel = 15;
+% pick the best one, i.e. with highest signal-to-noise ratio
+channel = 15; 
+
 testobs = wax(channel,:);
 testimp = aximp(channel,:);
 testnoise = noiseax(channel,:);
