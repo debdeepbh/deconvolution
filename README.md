@@ -14,6 +14,7 @@ OCTAVE
 * `z = iwtrans(w, type, p)` returns the `p`th resolution _inverse_ wavelet transform of the vector `w` using the parent wavelets of type `type`. If the `type` and `p` are the same, `iwtrans` and `wtrans` should be inverses of each other upto some _small_ error.
 * `coeffs(w, p, q)` returns the `q`-th level wavelet coefficients of the `p`-th resolution wavelet transform. `q` can be from `1` to `p+1`. q=p+1 represents the coarsest wavelet level.
 * `B = getbasismat(type, p, N)` generates a matrix of dimension `(p+1)xN` whose j-th row contains the basis element which is translated to generate the vectors used to compute the j-th level wavelet coefficients of a `p`-th resolution wavelet transform of a signal of length `N` (an integer power of 2).
+* `[w, ratiounthres, wnoise] = applythres(w, method, p, thrvec)` applies a thresholding on a given wavelet transform `w` using `method` as `hard`, `soft`, or `wien`, when a vector `thrvec` of length `p`+1 is supplied that contains the noise standard deviation of each level
 
 ### Parameters:
 * `type` can be `shan` for Shannon's wavelets, `d`n for Daubechies wavelets where n can be `2`, `4`, ... , `20`.
@@ -26,6 +27,7 @@ OCTAVE
 * `up`, `down` upsamples and downsamples a signal by zeros.
 * `fold(z)` folds a vector in half.
 * `realconv(a,b)` is the circular convolution of two real  signals (i.e. it returns the real part of the inverse Fourier transform of the product of Fourier transforms of the participating signals)
+* `sigmal = getleakedsd(B, L, r, noiseax, scaling)` computes the leaked noise s.d., given `L` and `r` (see `fdecschiske.m`) related to the impulse responses and the wavelet basis matrix `B` (see `getbasismat()`)
 
 ### Plotting tools:
 * `plotcoeffs(w,p)` plots the coefficients of wavelet transform `w`, the `p`-th resolution wavelet transform
@@ -51,7 +53,40 @@ OCTAVE
 		mult:	Fourier shrinkage multiplier
 ```
 
+* `[fw, mult] = fdecschiske(faxobs, faximp, fori, noiseax, scaling)` returns the Fourier transform of the Schiske deconvolution applied to a set of observations.
+
+```
+ Schiske deconvolution in the frequency domain
+ Input: 	faxobs: Fourier transform of the noisy observed signal matrix
+		faximp: Fourier transform of the impulse response matrix
+		fori: Fourier transform of the guess for the original signal
+ 			A possible guess will be fobs./sqrt(var(fimp))
+		noiseax: a row vector containing scalars for noise standard deviation, or the noise data matrix (time domain)
+		scaling: A regularized parameter to reduce the ringing, default =1
+ Output:	fw:	Fourier transform of the estimate
+		mult:	Fourier shrinkage multiplier matrix
+```
+
 ### Wavelet based deconvolution
+* `[w, ratiounthres, thrvec]  = wienforwd(fsig, fimp, fori, B, p, sigma, scaling, rho, method)` estimates the wavelet coefficients using the ForWaRD algorithm
+After doing deconvolution in Fourier then wavelet domain, based on supplied scaling values
+    ```
+      B: is the wavelet basis constructed using getbasis()
+  sigma: is the standard deviation used in wiener deconvolution
+scaling: should be of length p+1
+    rho: extra parameter vector to control the thresholding, default should be 1
+ method: hard, soft, or wien
+    ```
+*  `[w, ratiounthres, thrvec]  = schiskeforwd(faxobs, faximp, fori, B, p, noiseax, scaling, rho, method)` performs the multichannal deconvolution using Schiske and ForWaRd algorithm
+```
+scaling should be of length p+1
+   type is the wavelet filter type, p-th stage
+      B is the wavelet basis constructed using getbasis()
+noiseax is scalar, constant noise sd across all channels
+```
+
+* `[w, ratiounthres, thrvec]  = schiskeforwd_alt(faxobs, faximp, fori, B, type, p, noiseax, scaling, rho, method)`
+
 * `alpha = getoptsc(z, K, type, p, sigma, rootmethod)` compute the optimal  scaling parameter vector `alpha` of length `p+1` that minimizes the error in ForWaRD algorithm. Here `rootmethod` can be either `search` (for searching through uniformly located numbers between 0 and 1) or `bisec` (for a bisection method, much faster and accurate)
 
 ### ANITA related tools

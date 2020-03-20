@@ -61,4 +61,4 @@ switch n
 end
 
 % Extending by zero to the right
-testvec = [testvec zeros(1,512)];
+%testvec = [testvec zeros(1,512)];

@@ -10,17 +10,23 @@ function [testvec, f_testvec, aximp, f_aximp, wax, f_wax, noiseax, testconv, tes
 % N sigma^2 = E|XH|^2/(10^(bsnr/10))
 % sigma^2 = E|XH|^2/ (N * 10^(bsnr/10))
 
+
 % get the theoretical data
 testvec = testvec_gen(testvec_num);	% the spectrum of this one overlaps with that of K
 f_testvec = fft(testvec);
 
+N = length(testvec);
+
 for i=1:15
-	aximp(i,:) = boxcar(i, 1024);
+	aximp(i,:) = boxcar(i, N);
 
 	testconv(i,:) = realconv(testvec, aximp(i,:));
 
-	noise_level = sqrt( var( fft(testconv(i,:)) ) / (1024 * 10^(bsnr/10))); 
+	noise_level = sqrt( var( fft(testconv(i,:)) ) / (N * 10^(bsnr/10))); 
 
+	%% Noise generation
+	% random seed
+	randn('seed', i);
 	%%%% using the same noise level
 	noiseax(i,:) = randn([1 length(testconv(i,:))])* noise_level;
 

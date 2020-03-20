@@ -53,9 +53,6 @@ sqf_aximp = abs(faximp).^2;
 
 L = sum(sqf_aximp, 1);
 
-
-
-
 r = sigmasq./(abs(fori).^2);
 
 mult = sqf_aximp ./ (L + scaling * r);	% mult is a matrix, ith row is lambda_i

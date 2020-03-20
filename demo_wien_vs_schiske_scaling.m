@@ -1,7 +1,8 @@
 %% Comparison between Wiener (for a single channel) and Schiske (for multi channel)
-function [wien_err, schiske_err] = demo_wien_vs_schiske_noise(testvec_num, noise_level) 
+%% fixed noise sd used to create all channels
+function [wien_err, schiske_err] = demo_wien_vs_schiske_scaling(testvec_num, noise_level, scaling) 
 
-
+close all
 
 % test original signal
 %  1: two chirps
@@ -10,13 +11,9 @@ function [wien_err, schiske_err] = demo_wien_vs_schiske_noise(testvec_num, noise
 %  4: chirp
 %  5: smooth impulsive
 %  6: narrow impulsive
-testvec_num = 4;	
-
-% noise level
-noise_level = 2;
 
 % default regularization parameter
-scaling = 1;
+%scaling = 1;
 
 % set parameters
 set_params
@@ -40,8 +37,8 @@ schiske_est = real(ifft(fschiske));
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                error                                %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-wien_err = norm(testvec - wien_est)
-schiske_err = norm(testvec - schiske_est)
+wien_err = norm(testvec - wien_est);
+schiske_err = norm(testvec - schiske_est);
 
 
 
@@ -61,4 +58,6 @@ xlim([1 1024])
 hold off
 legend('original', 'estimate: wiener', 'estimate: schiske')
 
-
+%% Noise seed consistency test
+%disp('sum')
+%sum(sum(noiseax))

@@ -3,6 +3,11 @@
 % Slow implementation: generate dyadic indices and call directly instead
 function values = coeff(w, p, q)
 
+if (q > (p+1))
+	error('Level q is bigger than p+1');
+end
+
+
 maxet = q;
 %if q=p+1, print the coarsest part
 if q == p+1

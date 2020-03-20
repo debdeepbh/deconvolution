@@ -20,6 +20,9 @@ for i=1:15
 
 	testconv(i,:) = realconv(testvec, aximp(i,:));
 
+	%% Noise generation
+	% random seed
+	randn('seed', i);
 	%%%% using the same noise level
 	noiseax(i,:) = randn([1 length(testconv(i,:))])* noise_level;
 

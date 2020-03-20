@@ -1,9 +1,8 @@
 %% set up the parameters to be used 
-	 N = 1024;
+	 N = 512;
 	 M = 15;
 	 type='d10';
 	 p=3;
-	 rho=1;
 	 method='hard';
 	 B = getbasismat(type, p, N);
 	 fB = fft(B')';

@@ -5,18 +5,26 @@ function [testvec, f_testvec, aximp, f_aximp, wax, f_wax, noiseax, testconv, tes
 %                           Simulated data                            %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
 % get the theoretical data
 testvec = testvec_gen(testvec_num);	% the spectrum of this one overlaps with that of K
 f_testvec = fft(testvec);
 
+N = length(testvec);
+
+
 for i=1:15
-	aximp(i,:) = boxcar(i, 1024);
+	aximp(i,:) = boxcar(i, N);
+	%aximp(i,:) = boxcar(5, N);
 
 	testconv(i,:) = realconv(testvec, aximp(i,:));
 
-	%%%% using the same noise level
-	noiseax(i,:) = randn([1 length(testconv(i,:))])* noise_level;
 
+	%% Noise generation
+	% random seed
+	randn('seed', i);
+	%%%% using the same noise level
+	noiseax(i,:) = randn([1 N])* noise_level;
 	%%%%% noise of standard deviation 2i
 	%noiseax(i,:) = randn([1 length(testconv(i,:))])*2*i;
 

@@ -1,5 +1,8 @@
 %% Comparison between Wiener (for a single channel) and Schiske (for multi channel)
-function [wien_err, schiske_err] = demo_wien_vs_schiske_noise(testvec_num, noise_level) 
+%% fixed noise sd used to create all channels
+function [wien_err, wienforwd_err] = demo_wien_vs_wienforwd_noise(testvec_num, noise_level, scaling) 
+
+
 
 
 
@@ -10,13 +13,9 @@ function [wien_err, schiske_err] = demo_wien_vs_schiske_noise(testvec_num, noise
 %  4: chirp
 %  5: smooth impulsive
 %  6: narrow impulsive
-testvec_num = 4;	
-
-% noise level
-noise_level = 2;
 
 % default regularization parameter
-scaling = 1;
+%scaling = 1;
 
 % set parameters
 set_params
@@ -29,19 +28,22 @@ set_params
 
 
 %%% Single channel: run Wiener deconvolution
-[fw, mult] = fdecwien(f_testobs, f_testimp, f_testvec, noise_level, scaling);
+% Take scaling =1 here to do a true Wiener
+[fw, mult] = fdecwien(f_testobs, f_testimp, f_testvec, noise_level, 1);
 wien_est = real(ifft(fw));
 
-%%% Multichanne: run Schiske deconvolution
-% same noise level for each channel
-[fschiske, mult_schiske] = fdecschiske(f_wax, f_aximp, f_testvec, noise_level, scaling);
-schiske_est = real(ifft(fschiske));
+%%% Single channel: run wienforwd deconvolution
+[w, ratiounthres, thrvec]  = wienforwd(f_testobs, f_testimp, f_testvec, B, p, noise_level, scaling, rho, method);
+wienforwd_est = iwtrans(w, type, p);
+
+% print the unthrsholded ratio
+ratiounthres
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                error                                %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 wien_err = norm(testvec - wien_est)
-schiske_err = norm(testvec - schiske_est)
+wienforwd_err = norm(testvec - wienforwd_est)
 
 
 
@@ -56,9 +58,9 @@ figure
 plot(testvec);
 hold on
 plot(wien_est);
-plot(schiske_est);
+plot(wienforwd_est);
 xlim([1 1024])
 hold off
-legend('original', 'estimate: wiener', 'estimate: schiske')
+legend('original', 'estimate: wiener', 'estimate: wienforwd')
 
 

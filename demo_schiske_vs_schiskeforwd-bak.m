@@ -1,5 +1,6 @@
 %% Comparison between Wiener (for a single channel) and Schiske (for multi channel)
-function [wien_err, schiske_err] = demo_wien_vs_schiske_noise(testvec_num, noise_level) 
+%% Fixed bnsr is used to create the data
+function [wien_err, schiske_err] = demo_wien_vs_schiske_bsnr(testvec_num, bsnr) 
 
 
 
@@ -10,10 +11,6 @@ function [wien_err, schiske_err] = demo_wien_vs_schiske_noise(testvec_num, noise
 %  4: chirp
 %  5: smooth impulsive
 %  6: narrow impulsive
-testvec_num = 4;	
-
-% noise level
-noise_level = 2;
 
 % default regularization parameter
 scaling = 1;
@@ -21,20 +18,27 @@ scaling = 1;
 % set parameters
 set_params
 
-%%% get the data
+%%% set the data
 
-[testvec, f_testvec, aximp, f_aximp, wax, f_wax, noiseax, testconv, testobs, testimp, testnoise, f_testobs, f_testimp] = set_data_noise(testvec_num, noise_level);
+%[testvec, f_testvec, aximp, f_aximp, wax, f_wax, noiseax, testconv, testobs, testimp, testnoise, f_testobs, f_testimp] = set_data_noise(testvec_num, noise_level);
 
-%[testvec, f_testvec, aximp, f_aximp, wax, f_wax, noiseax, testconv, testobs, testimp, testnoise, f_testobs, f_testimp] = set_data_bsnr(testvec_num, bsnr);
+[testvec, f_testvec, aximp, f_aximp, wax, f_wax, noiseax, testconv, testobs, testimp, testnoise, f_testobs, f_testimp] = set_data_bsnr(testvec_num, bsnr);
+
+% row vector with noise sd of channel
+sd_noise = std(noiseax')';	
 
 
 %%% Single channel: run Wiener deconvolution
-[fw, mult] = fdecwien(f_testobs, f_testimp, f_testvec, noise_level, scaling);
+[fw, mult] = fdecwien(f_testobs, f_testimp, f_testvec, testnoise, scaling);
 wien_est = real(ifft(fw));
 
-%%% Multichanne: run Schiske deconvolution
-% same noise level for each channel
-[fschiske, mult_schiske] = fdecschiske(f_wax, f_aximp, f_testvec, noise_level, scaling);
+%%% Multichannel: run Schiske deconvolution
+% different noise level for each channel
+% normalize to minimize noise level to 1
+f_wax_n = f_wax ./ sd_noise;
+f_aximp_n = f_aximp ./ sd_noise;
+
+[fschiske, mult_schiske] = fdecschiske(f_wax_n, f_aximp_n, f_testvec, 1, scaling);
 schiske_est = real(ifft(fschiske));
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
