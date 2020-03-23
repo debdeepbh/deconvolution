@@ -7,10 +7,10 @@ function [w_thr, ratiounthres, thrvec]  = schiskeforwd_alt(faxobs, faximp, fori,
 % B is the wavelet basis constructed using getbasis()
 % noiseax is scalar, constant noise sd across all channels
 
+do_plot = 'no';
+%do_plot = 'yes';
+
 ratiounthres = zeros(1, p+1); 
-
-
-tic 
 
 [M, N] = size(faxobs);
 
@@ -39,15 +39,18 @@ if length(scaling) == 1
 			w_ori_j = coeff(w_ori, p, j);	% wavelet coeffs
 
 			% optimal scaling
-			[scaling(j), ratio_above(j)] = getopt_j(B_j, L, r, noiseax, w_ori_j, 'search');
+			[scaling(j), ratio_above(j)] = getopt_j(B_j, L, r, noiseax, w_ori_j, 'bisec');
 		end
+		printf('\n')
+		scaling
 		ratio_above
+	elseif (scaling == -2)	% compute the minimizer of true MSE
+		[true_scaling_min, min_err_true_mse] = true_min_err_alt(faxobs, faximp, fori, B, type, p, noiseax, rho, method)
+		
+		% stop execution
+		return
 	end
 end
-
-% print
-scaling
-
 
 
 
@@ -56,7 +59,7 @@ scaling
 
 
 %%% Get the leaked noise variance
-sigmal = getleakedsd(B, L, r, noiseax, scaling)
+sigmal = getleakedsd(B, L, r, noiseax, scaling);
 
 % Applying a scaling on leaked noise variance
 thrvec = sigmal.*rho;
@@ -74,42 +77,78 @@ for j=1:p+1
 	dec = real(ifft(fdec));
 	wdec = wtrans(dec, type, p);
 
-	plot(dec);
-	hold on
+	switch do_plot
+		case 'yes'
+			plot(dec);
+			hold on
+		otherwise
+			
+	end
 
 	% collect the coeffients of the j-th level
 	w_coeff = coeff(wdec, p, j);
 	% put it in the j-th level
 	w = [w w_coeff];
-	printf('Schiske error in level %d with %f: %f\n', j, scaling(j), norm(dec - ori));
+	%printf('Schiske error in level %d with %f: %f\n', j, scaling(j), norm(dec - ori));
 
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	%                    Level-dependent thresholding                     %
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	mask = (abs(w_coeff) > thrvec(j));
-	%% Hard thresholding on the level
-	%% If less than the noise level, drop it. Otherwise, keep it.
-	coeff_thr = w_coeff .* mask;
 
+	switch method
+	case 'hard'
+		mask = (abs(w_coeff) > thrvec(j));
+		%% Hard thresholding on the level
+		%% If less than the noise level, drop it. Otherwise, keep it.
+		coeff_thr = w_coeff .* mask;
+	case 'oracle'
+		w_ori_j  = coeff(w_ori, p, j);	% original signal
+		mask = (abs(w_ori_j) > thrvec(j));
+		%% Hard thresholding on the level
+		%% If less than the noise level, drop it. Otherwise, keep it.
+		coeff_thr = w_coeff .* mask;
+	case 'soft'
+		mask = (abs(w_coeff) > thrvec(j));
+		%% Hard thresholding on the level
+		%% If less than the noise level, drop it. Otherwise, keep it.
+		coeff_thr = w_coeff .* mask;
+		%% Soft thresholding
+		coeff_thr = sign(coeff_thr) .* ( abs(coeff_thr) - thrvec(j));
+	
+	otherwise
+		error('Wrong thresholding method');
+	end
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+	% place it
 	w_thr = [w_thr coeff_thr];
-
-	%% Soft thresholding
 
 	%% Number of un-thresholded coefficients
 	ratiounthres(j) = sum(mask)/length(mask); 
 
 end
-hold off
-legend('1', '2', '3', '3+1');
+	switch do_plot
+		case 'yes'
+			hold off
+			legend('1', '2', '3', '3+1');
+		otherwise
+			
+	end
 
-%% print before denoising
-%printf('Error before denoising: %f \n', norm( iwtrans(w, type, p) - ori));
-%
+switch do_plot
+	case 'yes'
+		
+		%% print before denoising
+		%printf('Error before denoising: %f \n', norm( iwtrans(w, type, p) - ori));
+		%
 
-plotthr(w_ori, p, thrvec)
-plotthr(w_thr, p, thrvec)
-%plotthr(w_thr, p, thrvec)
+		plotthr(w_ori, p, thrvec)
+		plotthr(w_thr, p, thrvec)
+		%plotthr(w_thr, p, thrvec)
 
+	otherwise
+		
+end
 
 
 % Applying the thresholding (in-place)
@@ -117,5 +156,11 @@ plotthr(w_thr, p, thrvec)
 %[w, ratiounthres, wnoise] = threshold(w, method, p, thrvec);
 %w = keeplarge(w, 2);
 
-toc
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                Print                                %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%sigmal
+%scaling
+
 

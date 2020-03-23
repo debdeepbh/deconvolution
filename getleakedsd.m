@@ -13,5 +13,5 @@ for j=1:p_plus_one
 
 	dotprod_val = sum( to_mult .* (abs(fft(Bsis)).^2));	% sum over the freq
 
-	sigmal(j) = sqrt( noiseax^2/N * dotprod_val);
+	sigmal(j) = sqrt( (noiseax^2)/N * dotprod_val);
 end

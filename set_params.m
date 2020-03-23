@@ -3,7 +3,7 @@
 	 M = 15;
 	 type='d10';
 	 p=3;
-	 method='hard';
+	 %method='soft';
 	 B = getbasismat(type, p, N);
 	 fB = fft(B')';
 

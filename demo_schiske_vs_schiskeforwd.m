@@ -4,14 +4,13 @@ function [schiske_err, schiskeforwd_err] = demo_schiske_vs_schiskeforwd(testvec_
 
 close all
 
+%% No need for this anymore since scaling=-2 will do the same
+%% in schiskeforwd_alt
+comp_true_err = 'no';
 
-% test original signal
-%  1: two chirps
-%  2: boxes
-%  3: sawtooth/triangle
-%  4: chirp
-%  5: smooth impulsive
-%  6: narrow impulsive
+% plot the graph
+%do_plot = 'no';
+do_plot = 'yes';
 
 % default regularization parameter
 %scaling = 1;
@@ -23,7 +22,9 @@ noisetype = 'bsnr';
 rho = 1;
 
 % Thresholding method
-method = 'hard';
+%method = 'hard';
+method = 'oracle';
+
 
 % set parameters
 set_params
@@ -60,7 +61,6 @@ switch noisetype
 end
 
 
-
 % Single channel: run Wiener deconvolution
 %[fw, mult] = fdecwien(f_testobs, f_testimp, f_testvec, noise_level, scaling);
 %wien_est = real(ifft(fw));
@@ -71,14 +71,21 @@ end
 [fschiske, mult_schiske] = fdecschiske(f_wax, f_aximp, f_testvec, noise_level, 1);
 schiske_est = real(ifft(fschiske));
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% True error producing scaling parameters
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%[optsc_for_true_err, true_err] = true_min_err(f_wax, f_aximp, f_testvec, B, type, p, noise_level, rho, method);
-%
-%optsc_for_true_err
-%true_err
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+switch comp_true_err
+	case 'yes'
+		disp('Computing the true minimizer of the MSE');
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		%% True error producing scaling parameters
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		%[optsc_for_true_err, true_err] = true_min_err(f_wax, f_aximp, f_testvec, B, type, p, noise_level, rho, method);
+		[optsc_for_true_err, true_err] = true_min_err_alt(f_wax, f_aximp, f_testvec, B, type, p, noise_level, rho, method);
+
+		optsc_for_true_err
+		true_err
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	otherwise
+		
+end
 
 %%% Multichanel: run schiskeforwd deconvolution
 % old implementation
@@ -95,8 +102,8 @@ thrvec
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                error                                %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-schiske_err = norm(testvec - schiske_est)
-schiskeforwd_err = norm(testvec - schiskeforwd_est)
+schiske_err = norm(testvec - schiske_est)/ norm(testvec)
+schiskeforwd_err = norm(testvec - schiskeforwd_est) / norm(testvec)
 
 perc_improvement = (schiske_err - schiskeforwd_err)/ schiske_err * 100
 
@@ -107,18 +114,25 @@ perc_improvement = (schiske_err - schiskeforwd_err)/ schiske_err * 100
 %                                Plot                                 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%% plot all noisy blurred signals
-%figure
-%plot(wax'); 
-%xlim([1 N])
+switch do_plot
+	case 'yes'
+		
+		%%% plot all noisy blurred signals
+		%figure
+		%plot(wax'); 
+		%xlim([1 N])
 
-figure
-plot(testvec);
-hold on
-plot(schiske_est);
-plot(schiskeforwd_est);
-xlim([1 N])
-hold off
-legend('original', 'estimate: schiske', 'estimate: schiskeforwd')
+		figure
+		plot(testvec);
+		hold on
+%		plot(schiske_est);
+		plot(schiskeforwd_est);
+		xlim([1 N])
+		hold off
+		%legend('original', 'estimate: schiske', 'estimate: schiskeforwd')
+		legend('Original', 'Multichannel ForWaRD')
 
 
+	otherwise
+		
+end

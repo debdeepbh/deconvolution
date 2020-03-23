@@ -3,6 +3,8 @@ function [opt_sc, ratio_above ] = getopt_j(B_j, L, r, noiseax, w_ori_j, rootmeth
 % for which ratio is equal to the parameter
 % alpha_j = getratio_above_noise(alpha_j, B_j, L, r, noiseax, w_ori_j) 
 
+N = length(B_j);
+
 switch rootmethod
 case 'bisec'
 	% initial guess

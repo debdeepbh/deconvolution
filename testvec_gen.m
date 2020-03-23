@@ -55,6 +55,10 @@ switch n
 		for j = 0:511 
 		       testvec(j+1) = (j - 256)*exp(-(j-256)^2/32);
 		end
+	case 7	% sine 
+		for j=0:511
+			testvec(j+1) = sin(j/17);
+		end
 	otherwise
 		error('Wrong argument: %d', n)
 		

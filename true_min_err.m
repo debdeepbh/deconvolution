@@ -26,7 +26,7 @@ for j = 1:p+1
 	j
 
 %%% find the scaling parameter that minimizes the true error
-	sc_initial = 0.01;
+	sc_initial = 0.001;
 	sc_step    = 0.01;
 	sc_end     = 1;
 
@@ -47,7 +47,7 @@ for j = 1:p+1
 		sigma_leaked_j = sigmal(j);
 
 	% compute the error
-	y = true_wl_err_j(j, sc_val, faxobs, faximp, fori, wori, type, p, noiseax, sigma_leaked_j, rho);
+	y = true_wl_err_j(j, sc_val, faxobs, faximp, fori, wori, type, p, method, noiseax, sigma_leaked_j, rho);
 
 		% compute the running minimum
 		min_val = min(min_val, y);
