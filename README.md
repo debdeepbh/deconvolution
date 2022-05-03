@@ -1,6 +1,6 @@
 # Deconvolution
 
-Estimates an unknown 1-dimensional vector from observation that is obtained by convolving with (or, blurred by) a known vector (called the *impulse response*) and then by adding a white noise. The estimate is more accurate when more than one observation are available, in which case the estimation problem is called a *multichannel deconvolution* problem.
+Estimates an unknown 1-dimensional vector from observation that is obtained by convolving with (or, blurred by) a known vector (called the *impulse response*) and then by adding a white noise. The estimate is more accurate when more than one observation are available, in which case the estimation problem is called a *multichannel deconvolution* problem. The estimation is done by solving a regularized minimization problem.
 
 This project contains
 - multichannel deconvolution algorithms: Fourier-based mean Weiner, Fourier-wavelet multichannel hybrid Schiske-ForWaRD
@@ -153,6 +153,17 @@ plot(real(ifft(fw)))
 
 ##### Multichannel Fourier based deconvolution: Schiske
 
+* Perform a Wiener deconvolution using
+```
+[fw, mult] = fdecschiske(f_testobs, f_testimp, f_testvec, testnoise, 1)
+```
+
+* Plot the original and deconvolved signals
+```
+plot(testvec)
+hold on
+plot(real(ifft(fw)))
+```
 
 # Reference
 * M. Frazier, _An Introduction to Wavelets through Linear Algebra_
