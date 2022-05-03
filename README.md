@@ -38,11 +38,12 @@ GNU Octave or Matlab
 * `plotcoeffs(w,p)` plots the coefficients of wavelet transform `w`, the `p`-th resolution wavelet transform
 * `plotbasis(type, p, N)` (better) plots the basis elements by first computing the full basis matrix using `getbaismat`
 
-<!-- Compression and error-->
-<!--* `keeplarge` zeros out smaller values-->
-<!--* `w = compress(z, type, p, K)` returns -->
-<!--* `relerr(z, typelist, kMax, p, q)` returns the relative error matrix computed in `q`-norm ...-->
-<!--* `compareErr(z, typelist, kMax, p, normlist)`-->
+### Wavelet compression
+Wavelet transform can also be used for compression (if the data is sparse enough)
+* `keeplarge` zeros out smaller values of wavelet coefficients
+* `w = compress(z, type, p, K)` returns  compressed vector `w` from original vector `v`
+* `relerr(z, typelist, kMax, p, q)` returns the relative error matrix computed in `q`-norm
+<!-- * `compareErr(z, typelist, kMax, p, normlist)` -->
 
 
 ### Fourier based Deconvolution
