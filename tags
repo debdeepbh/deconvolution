@@ -1,0 +1,59 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+applythres	applythres.m	/^function [w, ratiounthr, wnoise] = applythres(wo, rule, p, thr)$/;"	f
+boxcar	boxcar.m	/^function [out] = boxcar(supp, N) $/;"	f
+coeff	coeff.m	/^function values = coeff(w, p, q)$/;"	f
+crosscorr	crosscorr.m	/^function z = crosscorr(f,g)$/;"	f
+cupow	cupow.m	/^function s = cupow(z) $/;"	f
+decompose_wl	decompose_wl.m	/^function [w_decomp] = decompose_wl(w, B) $/;"	f
+demo_noise_perf	demo_noise_perf.m	/^function demo_noise_perf(testvec_num) $/;"	f
+demo_save	demo_save.m	/^function demo_save(fignum, filename, sizecomma)$/;"	f
+demo_schiske_vs_schiskeforwd	demo_schiske_vs_schiskeforwd.m	/^function [schiske_err, schiskeforwd_err] = demo_schiske_vs_schiskeforwd(testvec_num, noise_level, scaling) $/;"	f
+demo_sig_perf	demo_sig_perf.m	/^function [out] = demo_sig_perf() $/;"	f
+demo_wien_vs_schiske	demo_wien_vs_schiske.m	/^function [wien_err, schiske_err] = demo_wien_vs_schiske(testvec_num, noise_level, scaling) $/;"	f
+demo_wien_vs_schiske_bsnr	demo_schiske_vs_schiskeforwd-bak.m	/^function [wien_err, schiske_err] = demo_wien_vs_schiske_bsnr(testvec_num, bsnr) $/;"	f
+demo_wien_vs_schiske_scaling	demo_wien_vs_schiske_scaling.m	/^function [wien_err, schiske_err] = demo_wien_vs_schiske_scaling(testvec_num, noise_level, scaling) $/;"	f
+demo_wien_vs_wienforwd_noise	demo_wien_vs_wienforwd_noise.m	/^function [wien_err, wienforwd_err] = demo_wien_vs_wienforwd_noise(testvec_num, noise_level, scaling) $/;"	f
+deriv	deriv.m	/^function w = deriv(z)$/;"	f
+down	down.m	/^function Dz = down(z)$/;"	f
+fdecschiske	fdecschiske.m	/^function [fw, mult] = fdecschiske(faxobs, faximp, fori, noiseax, scaling)$/;"	f
+fdecwien	fdecwien.m	/^function [fw, mult] = fdecwien(fobs, fimp, fori, noise, scaling)$/;"	f
+filt	filt.m	/^function [u, v] = filt(TYPE, N)$/;"	f
+fold	fold.m	/^function y = fold(z)$/;"	f
+getantenna	getantenna.m	/^function filename = getantenna(num)$/;"	f
+getbasismat	getbasismat.m	/^function B = getbasismat(type, p, N)$/;"	f
+getleakedsd	getleakedsd.m	/^function [sigmal] = getleakedsd(B, L, r, noiseax, scaling) $/;"	f
+getopt_j	getopt_j.m	/^function [opt_sc, ratio_above ] = getopt_j(B_j, L, r, noiseax, w_ori_j, rootmethod) $/;"	f
+getother	getother.m	/^function v = getother(u) $/;"	f
+getratio_above_noise_schiske	getratio_above_noise_schiske.m	/^function ratio_j = getratio_above_noise_schiske(scaling_j, B_j, L, r, noiseax, w_ori_j) $/;"	f
+getsnr	getsnr.m	/^function [snrval, M, m, a, b] = getsnr(z)$/;"	f
+iwrec	iwrec.m	/^function w = iwrec(z, sdim, u, v)$/;"	f
+iwtrans	iwtrans.m	/^function w = iwtrans(z, type, p)$/;"	f
+padfreq	padfreq.m	/^function z = padfreq(w, N, eps)$/;"	f
+planktaper	planktaper.m	/^function w = planktaper(N,eps)$/;"	f
+plotbasis	plotbasis.m	/^function plotbasis(type, p, N)$/;"	f
+plotcoeffs	plotcoeffs.m	/^function plotcoeffs(w,p)$/;"	f
+plotfanita	plotfanita.m	/^function plotfanita(z)$/;"	f
+plotfanitaS	plotfanitaS.m	/^function plotfanitaS(z)$/;"	f
+plotthr	plotthr.m	/^function plotthr(w,p,thrvec)$/;"	f
+prepsig	prepsig.m	/^function [ax, aximp] = prepsig(num)$/;"	f
+realconv	realconv.m	/^function y = realconv(a,b)$/;"	f
+schiskeforwd	schiskeforwd.m	/^function [w, ratiounthres, thrvec]  = schiskeforwd(faxobs, faximp, fori, B, p, noiseax, scaling, rho, method)$/;"	f
+schiskeforwd_alt	schiskeforwd_alt.m	/^function [w_thr, ratiounthres, thrvec]  = schiskeforwd_alt(faxobs, faximp, fori, B, type, p, noiseax, scaling, rho, method)$/;"	f
+set_data_bsnr	set_data_bsnr.m	/^function [testvec, f_testvec, aximp, f_aximp, wax, f_wax, noiseax, testconv, testobs, testimp, testnoise, f_testobs, f_testimp] = set_data_bsnr(testvec_num, bsnr) $/;"	f
+set_data_noise	set_data_noise.m	/^function [testvec, f_testvec, aximp, f_aximp, wax, f_wax, noiseax, testconv, testobs, testimp, testnoise, f_testobs, f_testimp] = set_data_noise(testvec_num, noise_level) $/;"	f
+test_wien_vs_schiske_scaling	test_wien_vs_schiske_scaling.m	/^function [wien_err, schiske_err] = test_wien_vs_schiske_scaling(testvec_num, noise_level) $/;"	f
+testvec_gen	testvec_gen.m	/^function [testvec] = testvec_gen(n) $/;"	f
+tight_subplot	tight_subplot.m	/^function [ha, pos] = tight_subplot(Nh, Nw, gap, marg_h, marg_w)$/;"	f
+true_min_err	true_min_err.m	/^function [optsc_for_true_err, true_err] = true_min_err(faxobs, faximp, fori, B, type, p, noiseax, rho, method) $/;"	f
+true_min_err_alt	true_min_err_alt.m	/^function [true_scaling_min, min_err_all] = true_min_err_alt(faxobs, faximp, fori, B, type, p, noiseax, rho, method) $/;"	f
+true_wl_err_j	true_wl_err_j.m	/^function [err_w_j, ratiounthres_j] = true_wl_err_j(j, scaling_j, faxobs, faximp, fori, w_ori, type, p, method, noiseax, sigma_leaked_j, rho) $/;"	f
+up	up.m	/^function Uz = up(z)$/;"	f
+wienforwd	wienforwd.m	/^function [w, ratiounthres, thrvec]  = wienforwd(fsig, fimp, fori, B, p, sigma, scaling, rho, method)$/;"	f
+wrec	wrec.m	/^function w = wrec(z, sdim, util, vtil)$/;"	f
+wtran_B	wtran_B.m	/^function [w] = wtran_B(z, type, p) $/;"	f
+wtrans	wtrans.m	/^function w = wtrans(z, type, p)$/;"	f

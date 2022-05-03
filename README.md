@@ -1,10 +1,15 @@
 # Deconvolution
 
-Fourier and wavelet analysis tools in 1 dimension for deconvolution
+Estimates an unknown 1-dimensional vector from observation that is obtained by convolving with (or, blurred by) a known vector (called the *impulse response*) and then by adding a white noise. The estimate is more accurate when more than one observation are available, in which case the estimation problem is called a *multichannel deconvolution* problem.
+
+This project contains
+- multichannel deconvolution algorithms: Fourier-based mean Weiner, Fourier-wavelet multichannel hybrid Schiske-ForWaRD
+- single-channel (usual) deconvolution algorithms: Fourier-based Weiner deconvolution, Fourier-Fwavelet hybrid ForWaRD algorithm (Neelamani-Baranuik-Choi)
+- various Fourier and wavelet analysis and visualization tools in 1 dimension
 
 # Requirements
 
-OCTAVE
+GNU Octave or Matlab
 
 # Usage
 
@@ -89,7 +94,9 @@ noiseax is scalar, constant noise sd across all channels
 
 * `alpha = getoptsc(z, K, type, p, sigma, rootmethod)` compute the optimal  scaling parameter vector `alpha` of length `p+1` that minimizes the error in ForWaRD algorithm. Here `rootmethod` can be either `search` (for searching through uniformly located numbers between 0 and 1) or `bisec` (for a bisection method, much faster and accurate)
 
-### ANITA related tools
+### Data
+A sample data is included to play with. The data is collected by the [ANITA](https://en.wikipedia.org/wiki/Antarctic_Impulsive_Transient_Antenna) project using an array-antenna carried by a balloon in Antarctica. It is a time-series data of electromagnetic activities captured by 15 antennas facing the source of the signal.
+
 * `getantenna(n)` outputs the filename of the impulse response of the antenna, given the absolute index of the antenna
 * `[ax, aximp] = prepsig(num)` outputs matrix `ax` with noisy blurred ANITA signals and `aximp` contains the impulse responses used in the observation
 * `[snrval, M, m, a, b] = getsnr(z)` computes the signal-to-noise ratio of a temporally localized signal `z`. Here, `M` and `m` are the max and the min of the signal, the time interval `[a,b]` has 10 times the length of the peak region and is a neighborhood of the peak region.
