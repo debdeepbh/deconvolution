@@ -14,8 +14,8 @@ This project contains
 Consider the following observations (left) of an unknown source signal made by 5 antennas and their corresponding known impulse responses (right).
 ![img](pic/anitadata.png)
 
-The estimated unknown signal using Schiske ForWaRD method (`rho=2`) (see below) is 
-![img](pic/anita-rho2.png):
+The estimated unknown signal using Schiske ForWaRD method (`rho=2`) (see below) is:
+![img](pic/anita-rho2.png)
 
 ```
 [w, ratiounthres, thrvec]  = schiskeforwd(faxobs, faximp, fori, B, p, noiseax, scaling, rho, method)
