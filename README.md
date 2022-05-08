@@ -2,7 +2,7 @@
 
 Wavelet and Fourier-based multichannel deconvolution.
 
-It estimates an unknown 1-dimensional vector from observation that is obtained by convolving with (or, blurred by) a known vector (called the *impulse response*) and then by adding a white noise. The estimate is more accurate when more than one observation are available, in which case the estimation problem is called a *multichannel deconvolution* problem. The estimation is done by solving a regularized minimization problem.
+Estimates an unknown 1-dimensional vector from observation that is obtained by convolving with (or, blurred by) a known vector (called the *impulse response*) and then by adding a white noise. The estimate is more accurate when more than one observation are available, in which case the estimation problem is called a *multichannel deconvolution* problem. The estimation is done by solving a regularized minimization problem.
 
 This project contains
 - multichannel deconvolution algorithms: Fourier-based mean Weiner, Fourier-wavelet multichannel hybrid Schiske-ForWaRD
@@ -15,7 +15,7 @@ Consider the following observations (left) of an unknown source signal made by 5
 ![img](pic/anitadata.png)
 
 The estimated unknown signal using Schiske ForWaRD method (`rho=2`) (see below) is 
-![img](pic/anita-rho2.png)
+![img](pic/anita-rho2.png):
 
 ```
 [w, ratiounthres, thrvec]  = schiskeforwd(faxobs, faximp, fori, B, p, noiseax, scaling, rho, method)
@@ -105,6 +105,8 @@ scaling should be of length p+1
       B is the wavelet basis constructed using getbasis()
 noiseax is scalar, constant noise sd across all channels
 ```
+The schematics of the algorithm is given below.
+![img](pic/algorithm-multichannel-forward.png)
 
 * `[w, ratiounthres, thrvec]  = schiskeforwd_alt(faxobs, faximp, fori, B, type, p, noiseax, scaling, rho, method)`
 
@@ -182,5 +184,5 @@ plot(real(ifft(fw)))
 ```
 
 # Reference
-* M. Frazier, _An Introduction to Wavelets through Linear Algebra_
+- Data courtesy: [ANITA](https://www.phys.hawaii.edu/~anita/new/html/science.html)
 * Thanks to Dr. Peter Gorham for providing support and ANITA data and Manuel Olmedo for making the data matlab-friendly
