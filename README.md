@@ -1,11 +1,26 @@
 # Deconvolution
 
-Estimates an unknown 1-dimensional vector from observation that is obtained by convolving with (or, blurred by) a known vector (called the *impulse response*) and then by adding a white noise. The estimate is more accurate when more than one observation are available, in which case the estimation problem is called a *multichannel deconvolution* problem. The estimation is done by solving a regularized minimization problem.
+Wavelet and Fourier-based multichannel deconvolution.
+
+It estimates an unknown 1-dimensional vector from observation that is obtained by convolving with (or, blurred by) a known vector (called the *impulse response*) and then by adding a white noise. The estimate is more accurate when more than one observation are available, in which case the estimation problem is called a *multichannel deconvolution* problem. The estimation is done by solving a regularized minimization problem.
 
 This project contains
 - multichannel deconvolution algorithms: Fourier-based mean Weiner, Fourier-wavelet multichannel hybrid Schiske-ForWaRD
-- single-channel (usual) deconvolution algorithms: Fourier-based Weiner deconvolution, Fourier-Fwavelet hybrid ForWaRD algorithm (Neelamani-Baranuik-Choi)
+- single-channel (usual) deconvolution algorithms: Fourier-based Weiner deconvolution, hybrid (Fourier-wavelet) ForWaRD algorithm (Neelamani-Baranuik-Choi)
 - various Fourier and wavelet analysis and visualization tools in 1 dimension
+
+# Demonstration
+
+Consider the following observations (left) of an unknown source signal made by 5 antennas and their corresponding known impulse responses (right).
+![img](pic/anitadata.png)
+
+The estimated unknown signal using Schiske ForWaRD method (`rho=2`) (see below) is 
+![img](pic/anita-rho2.png)
+
+```
+[w, ratiounthres, thrvec]  = schiskeforwd(faxobs, faximp, fori, B, p, noiseax, scaling, rho, method)
+```
+
 
 # Requirements
 
